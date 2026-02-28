@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Make it D1 & Pro — Riley Lynch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #DD004A;
+  --red-dark: #B8003D;
+  --red-dim: rgba(221,0,74,0.12);
+  --red-border: rgba(221,0,74,0.22);
+  --navy: #001837;
+  --navy-deep: #00101F;
+  --navy-card: #001020;
+  --white: #FFFFFF;
+  --off: #EAE8E3;
+  --muted: #6A7A8A;
+  --border: rgba(255,255,255,0.07);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy-deep);
+  color: var(--off);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0; z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 52px;
+  background: rgba(0,16,31,0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--red-border);
+}
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 22px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--white);
+}
+.logo span { color: var(--red); }
+.nav-btn {
+  background: var(--red); color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 10px 24px; border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+  padding-top: 73px;
+  background: var(--navy);
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -10%, rgba(221,0,74,0.09) 0%, transparent 65%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+/* subtle pitch lines */
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg, transparent 0px, transparent 59px,
+    rgba(255,255,255,0.014) 59px, rgba(255,255,255,0.014) 61px
+  );
+}
+
+.hero-body {
+  position: relative; z-index: 5;
+  padding: 80px 52px 60px;
+  max-width: 1060px; width: 100%; margin: 0 auto;
+}
+
+.live-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  color: #FF4475;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 3px;
+  margin-bottom: 30px;
+  animation: fadeUp 0.5s ease both;
+}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red);
+  animation: blink 1.4s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(72px, 12vw, 148px);
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  animation: fadeUp 0.6s ease 0.06s both;
+}
+.hero-title .solid { color: var(--white); }
+.hero-title .red-it { color: var(--red); font-style: italic; }
+.hero-title .ghost {
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.18);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(15px, 1.8vw, 19px);
+  color: rgba(255,255,255,0.46);
+  max-width: 520px; margin-bottom: 46px;
+  line-height: 1.55;
+  animation: fadeUp 0.6s ease 0.12s both;
+}
+.hero-sub em { color: var(--off); font-style: normal; font-weight: 500; }
+
+/* countdown */
+.cd-wrap { margin-bottom: 46px; animation: fadeUp 0.6s ease 0.18s both; }
+.cd-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 10px;
+}
+.countdown { display: flex; align-items: flex-end; gap: 10px; }
+.cd-unit { text-align: center; }
+.cd-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 46px; line-height: 1;
+  color: var(--white);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 16px; border-radius: 4px;
+  min-width: 66px; display: block;
+}
+.cd-colon {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px; font-weight: 900;
+  color: var(--red); margin-bottom: 16px; line-height: 1;
+}
+.cd-unit-lbl {
+  font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-top: 5px;
+}
+
+.cta-row {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  animation: fadeUp 0.6s ease 0.24s both;
+}
+.btn-main {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--red); color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 18px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 18px 36px; border-radius: 3px;
+  text-decoration: none;
+  box-shadow: 0 4px 32px rgba(221,0,74,0.28);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-main:hover {
+  background: var(--red-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 48px rgba(221,0,74,0.4);
+}
+.cta-micro { font-size: 13px; color: var(--muted); }
+.cta-micro strong { color: var(--off); }
+
+/* stats strip */
+.stats-strip {
+  position: relative; z-index: 5;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--red-border);
+  background: var(--navy-deep);
+}
+.s-cell {
+  padding: 26px 32px;
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.s-cell:last-child { border-right: none; }
+.s-cell:hover { background: var(--red-dim); }
+.s-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 38px;
+  color: var(--red); line-height: 1; margin-bottom: 4px;
+}
+.s-lbl { font-size: 13px; color: var(--muted); line-height: 1.3; }
+
+/* ── SHARED ── */
+.eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 12px;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 14px;
+}
+.sec-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 0.94; text-transform: uppercase;
+  letter-spacing: 0.02em; margin-bottom: 24px;
+}
+.sec-title em { font-style: italic; color: var(--red); }
+
+/* ── STORY ── */
+.story {
+  padding: 120px 52px;
+  background: var(--navy-deep);
+}
+.story-inner {
+  max-width: 1060px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.body-txt {
+  font-size: 17px; color: rgba(255,255,255,0.5);
+  line-height: 1.8; margin-bottom: 20px;
+}
+.body-txt strong { color: var(--off); font-weight: 500; }
+
+.q-card {
+  background: var(--navy-card);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 40px;
+  position: relative; overflow: hidden;
+}
+.q-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--red);
+}
+.q-mark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 88px; line-height: 0.65;
+  color: var(--red); opacity: 0.22;
+  margin-bottom: 16px; display: block;
+}
+.q-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic; font-weight: 700;
+  font-size: 27px; line-height: 1.25;
+  color: var(--white); margin-bottom: 28px;
+}
+.q-attr { display: flex; align-items: center; gap: 14px; }
+.q-av {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--navy); border: 2px solid var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 16px; color: var(--red);
+  flex-shrink: 0;
+}
+.q-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 16px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--white);
+}
+.q-role { font-size: 13px; color: var(--muted); }
+
+/* ── VSL ── */
+.vsl {
+  padding: 100px 52px;
+  background: var(--navy);
+  position: relative; overflow: hidden;
+}
+.vsl::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg, transparent 0px, transparent 59px,
+    rgba(255,255,255,0.012) 59px, rgba(255,255,255,0.012) 61px
+  );
+  pointer-events: none;
+}
+.vsl-inner {
+  max-width: 860px; margin: 0 auto;
+  text-align: center; position: relative; z-index: 2;
+}
+.vsl-frame {
+  position: relative;
+  background: var(--navy-deep);
+  border: 1px solid var(--red-border);
+  border-radius: 6px; overflow: hidden;
+  aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 80px rgba(221,0,74,0.07);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-bottom: 24px;
+}
+.vsl-frame:hover {
+  border-color: rgba(221,0,74,0.45);
+  box-shadow: 0 0 100px rgba(221,0,74,0.14);
+}
+.vsl-grid {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0px, transparent 99px, rgba(255,255,255,0.01) 99px, rgba(255,255,255,0.01) 100px),
+    repeating-linear-gradient(180deg, transparent 0px, transparent 99px, rgba(255,255,255,0.01) 99px, rgba(255,255,255,0.01) 100px);
+}
+.vsl-ring {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 180px; height: 180px;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 50%;
+}
+.vsl-play-wrap {
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+}
+.play-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 14px rgba(221,0,74,0.1), 0 0 0 28px rgba(221,0,74,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.vsl-frame:hover .play-btn {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 18px rgba(221,0,74,0.13), 0 0 0 36px rgba(221,0,74,0.06);
+}
+.play-lbl {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.vsl-caption {
+  font-style: italic; font-size: 16px;
+  color: rgba(255,255,255,0.32);
+  max-width: 460px; margin: 0 auto;
+}
+
+/* ── PILLARS ── */
+.pillars {
+  padding: 120px 52px;
+  background: var(--navy-deep);
+  position: relative;
+}
+.pillars::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red-border), transparent);
+}
+.pillars-inner { max-width: 1060px; margin: 0 auto; }
+.pillars-top {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: end; margin-bottom: 52px;
+}
+.pillars-desc { font-size: 17px; color: rgba(255,255,255,0.46); line-height: 1.7; }
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+}
+.pillar {
+  padding: 36px 20px;
+  border-right: 1px solid var(--border);
+  position: relative; cursor: default;
+  transition: background 0.25s;
+}
+.pillar:last-child { border-right: none; }
+.pillar:hover { background: var(--red-dim); }
+.pillar-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 52px;
+  color: rgba(221,0,74,0.12); line-height: 1;
+  margin-bottom: 14px; transition: color 0.25s;
+}
+.pillar:hover .pillar-n { color: rgba(221,0,74,0.3); }
+.pillar-icon { font-size: 22px; margin-bottom: 10px; }
+.pillar-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 18px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--white); margin-bottom: 8px;
+}
+.pillar-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.pillar-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--red);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.pillar:hover .pillar-bar { transform: scaleX(1); }
+
+/* ── RESULTS ── */
+.results {
+  padding: 120px 52px;
+  background: var(--navy);
+}
+.results-inner { max-width: 1060px; margin: 0 auto; }
+.results-grid {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 16px; margin-bottom: 48px;
+}
+.r-card {
+  background: var(--navy-card);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 32px;
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 20px; align-items: start;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.r-card:hover { border-color: var(--red-border); transform: translateY(-3px); }
+.r-idx {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 48px; line-height: 1;
+  color: rgba(221,0,74,0.14);
+}
+.r-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 20px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--white); margin-bottom: 4px;
+}
+.r-tag {
+  display: inline-block;
+  background: var(--red-dim); color: #FF4475;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 3px; margin-bottom: 12px;
+}
+.r-body { font-size: 15px; color: rgba(255,255,255,0.48); line-height: 1.65; }
+.r-body strong { color: var(--off); }
+
+.stat-strip {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+  background: var(--navy-card);
+}
+.st-block {
+  padding: 40px 24px; text-align: center;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.st-block::before {
+  content: '';
+  position: absolute; top: 0; left: 20%; right: 20%;
+  height: 2px; background: var(--red); opacity: 0.7;
+}
+.st-block:last-child { border-right: none; }
+.st-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 60px;
+  color: var(--red); line-height: 1; margin-bottom: 8px;
+}
+.st-lbl { font-size: 14px; color: var(--muted); line-height: 1.4; }
+
+/* ── PRICING ── */
+.pricing {
+  padding: 120px 52px;
+  background: var(--navy-deep);
+  position: relative;
+}
+.pricing::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red-border), transparent);
+}
+.pricing-inner { max-width: 1060px; margin: 0 auto; }
+.pricing-head { text-align: center; margin-bottom: 12px; }
+.pricing-sub {
+  text-align: center; font-size: 17px;
+  color: rgba(255,255,255,0.42); max-width: 440px;
+  margin: 0 auto 60px;
+}
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 16px; align-items: stretch;
+}
+.p-card {
+  background: var(--navy-card);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 36px 28px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: transform 0.25s, border-color 0.25s;
+}
+.p-card:hover { transform: translateY(-6px); }
+.p-card.featured {
+  border-color: var(--red);
+  background: linear-gradient(155deg, rgba(221,0,74,0.07) 0%, var(--navy-card) 55%);
+}
+.pop-badge {
+  position: absolute; top: -14px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--red); color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 20px; border-radius: 3px; white-space: nowrap;
+}
+.p-tier {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 6px;
+}
+.p-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 28px;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--white); margin-bottom: 6px;
+}
+.p-sub {
+  font-size: 13px; color: var(--muted);
+  margin-bottom: 28px; padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.p-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 62px; line-height: 1;
+  color: var(--white);
+}
+.p-price .curr {
+  font-size: 28px; vertical-align: top;
+  margin-top: 11px; display: inline-block;
+  color: rgba(255,255,255,0.35);
+}
+.p-note { font-size: 12px; color: var(--muted); margin-top: 4px; margin-bottom: 28px; }
+.feat-list { list-style: none; flex: 1; margin-bottom: 32px; }
+.feat-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px; color: rgba(255,255,255,0.52); line-height: 1.4;
+}
+.feat-list li:last-child { border-bottom: none; }
+.feat-list li .ck { color: var(--red); flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+.feat-list li strong { color: var(--off); }
+.p-btn {
+  display: block; width: 100%; text-align: center;
+  padding: 16px 20px; border-radius: 3px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 16px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: none; cursor: pointer; text-decoration: none;
+  margin-top: auto; transition: all 0.2s;
+}
+.p-btn.solid {
+  background: var(--red); color: var(--white);
+  box-shadow: 0 4px 24px rgba(221,0,74,0.22);
+}
+.p-btn.solid:hover {
+  background: var(--red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(221,0,74,0.38);
+}
+.p-btn.outline {
+  background: transparent; color: var(--off);
+  border: 1px solid rgba(255,255,255,0.13);
+}
+.p-btn.outline:hover { border-color: var(--red); color: var(--red); }
+.guarantee {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 40px;
+  font-size: 14px; color: var(--muted);
+}
+
+/* ── OBJECTIONS ── */
+.obj {
+  padding: 120px 52px;
+  background: var(--navy);
+}
+.obj-inner { max-width: 780px; margin: 0 auto; }
+.obj-head { text-align: center; margin-bottom: 56px; }
+.obj-item { border-bottom: 1px solid var(--border); }
+.obj-q {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 22px 0; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 20px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--white); user-select: none;
+  transition: color 0.2s;
+}
+.obj-q:hover { color: var(--red); }
+.obj-icon {
+  font-size: 26px; font-weight: 900;
+  color: var(--red); flex-shrink: 0;
+  transition: transform 0.25s; line-height: 1;
+}
+.obj-item.open .obj-icon { transform: rotate(45deg); }
+.obj-a {
+  font-size: 16px; color: rgba(255,255,255,0.48);
+  line-height: 1.7; padding-bottom: 24px; display: none;
+}
+.obj-item.open .obj-a { display: block; }
+
+/* ── FINAL ── */
+.final {
+  padding: 140px 52px;
+  background: var(--navy-deep);
+  position: relative; overflow: hidden; text-align: center;
+}
+.final::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg, transparent 0px, transparent 59px,
+    rgba(255,255,255,0.012) 59px, rgba(255,255,255,0.012) 61px
+  );
+  pointer-events: none;
+}
+.final-glow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 700px; height: 380px;
+  background: radial-gradient(ellipse, rgba(221,0,74,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+.final-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(56px, 9vw, 108px);
+  line-height: 0.9; text-transform: uppercase;
+  letter-spacing: 0.02em; margin-bottom: 24px;
+}
+.final-title em { font-style: italic; color: var(--red); }
+.final-sub {
+  font-size: 18px; color: rgba(255,255,255,0.42);
+  margin-bottom: 48px; line-height: 1.6;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 52px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; color: var(--muted);
+  background: var(--navy-deep);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.reveal { opacity:0; transform:translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* MOBILE */
+@media(max-width:900px){
+  nav { padding:16px 20px; }
+  .hero-body { padding:48px 24px; }
+  .stats-strip { grid-template-columns:repeat(2,1fr); }
+  .s-cell { border-bottom:1px solid var(--border); }
+  .story-inner { grid-template-columns:1fr; gap:40px; }
+  .pillars-grid { grid-template-columns:1fr; }
+  .pillar { border-right:none; border-bottom:1px solid var(--border); }
+  .pillars-top { grid-template-columns:1fr; gap:20px; }
+  .results-grid { grid-template-columns:1fr; }
+  .stat-strip { grid-template-columns:1fr; }
+  .st-block { border-right:none; border-bottom:1px solid var(--border); }
+  .pricing-grid { grid-template-columns:1fr; }
+  .story,.pillars,.results,.pricing,.vsl,.obj,.final { padding:80px 24px; }
+  footer { flex-direction:column; gap:8px; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Riley <span>Lynch</span></div>
+  <a href="#pricing" class="nav-btn">Get Your Ticket</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-body">
+    <div class="live-tag"><span class="live-dot"></span>Live Webinar Event</div>
+    <h1 class="hero-title">
+      How To<br>
+      Make It<br>
+      <span class="red-it">D1 &amp; Pro</span>
+    </h1>
+    <p class="hero-sub">
+      I was cut from my high school varsity team. Junior year — <em>zero offers.</em> I cried on my bed thinking I wasn't going to make it. Then I found a system that changed everything.
+    </p>
+    <div class="cd-wrap">
+      <div class="cd-label">Webinar starts in</div>
+      <div class="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cd-d">07</span><div class="cd-unit-lbl">Days</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-h">14</span><div class="cd-unit-lbl">Hrs</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">32</span><div class="cd-unit-lbl">Min</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><div class="cd-unit-lbl">Sec</div></div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a href="#pricing" class="btn-main">
+        Claim Your Seat
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="cta-micro">Tickets from <strong>$27</strong> · Limited spots</div>
+    </div>
+  </div>
+  <div class="stats-strip">
+    <div class="s-cell"><div class="s-num">3</div><div class="s-lbl">Years as a professional player</div></div>
+    <div class="s-cell"><div class="s-num">7+</div><div class="s-lbl">D1 college commits in 2024 alone</div></div>
+    <div class="s-cell"><div class="s-num">MLS</div><div class="s-lbl">Academy placements from grassroots</div></div>
+    <div class="s-cell"><div class="s-num">10</div><div class="s-lbl">Minutes a day to start the system</div></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-inner">
+    <div class="reveal">
+      <p class="eyebrow">The Story</p>
+      <h2 class="sec-title">From Cut<br>to <em>Contract</em></h2>
+      <p class="body-txt">Riley Lynch was cut from his high school varsity team. Junior year — <strong>zero college offers.</strong> Too small. Not fast enough. He sat on his bed with his dad and cried because he didn't think he had what it took.</p>
+      <p class="body-txt">Then he stopped waiting for talent and built a system out of necessity. <strong>The 5 Pillar Method.</strong> That system took him from B-team soccer to ECNL, to Division One, to signing two professional contracts.</p>
+      <p class="body-txt">In this webinar he's breaking it all down. No fluff. No generic advice. <strong>The exact method — the one that actually worked.</strong></p>
+    </div>
+    <div class="reveal">
+      <div class="q-card">
+        <span class="q-mark">"</span>
+        <blockquote class="q-text">I was sitting on my bed with my dad, crying, because I didn't think I had what it takes to make it.</blockquote>
+        <div class="q-attr">
+          <div class="q-av">RL</div>
+          <div>
+            <div class="q-name">Riley Lynch</div>
+            <div class="q-role">Professional Soccer Player · 2× Pro Contract</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VSL -->
+<section class="vsl">
+  <div class="vsl-inner">
+    <div class="reveal" style="margin-bottom:40px; text-align:center">
+      <p class="eyebrow">Watch First</p>
+      <h2 class="sec-title" style="font-size:clamp(36px,5vw,58px)">Hear It From <em>Riley</em></h2>
+    </div>
+    <div class="vsl-frame reveal">
+      <div class="vsl-grid"></div>
+      <div class="vsl-ring"></div>
+      <div class="vsl-play-wrap">
+        <div class="play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M8 5.14v14l11-7-11-7z" fill="#fff"/></svg>
+        </div>
+        <span class="play-lbl">Watch Riley's Story · 5 min</span>
+      </div>
+    </div>
+    <p class="vsl-caption reveal">"I was not special. And neither was I. But I made a decision — and I found a way."</p>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="pillars-inner">
+    <div class="pillars-top">
+      <div class="reveal">
+        <p class="eyebrow">The System</p>
+        <h2 class="sec-title">The 5 Pillar<br><em>Method</em></h2>
+      </div>
+      <p class="pillars-desc reveal">Most players only train one or two of these. Every elite player you've ever watched is strong in all five. This webinar covers every pillar — and exactly how to start building each one from where you are right now.</p>
+    </div>
+    <div class="pillars-grid reveal">
+      <div class="pillar"><div class="pillar-n">01</div><div class="pillar-icon">⚽</div><div class="pillar-name">Technical</div><div class="pillar-desc">Position-specific drills that actually transfer to games — not pointless field sessions.</div><div class="pillar-bar"></div></div>
+      <div class="pillar"><div class="pillar-n">02</div><div class="pillar-icon">🧠</div><div class="pillar-name">Tactical</div><div class="pillar-desc">How to study film, read the game at a higher level, and make smarter decisions under pressure.</div><div class="pillar-bar"></div></div>
+      <div class="pillar"><div class="pillar-n">03</div><div class="pillar-icon">⚡</div><div class="pillar-name">Physical</div><div class="pillar-desc">Speed is a skill, not a gift. The exact training that makes you faster, stronger, more explosive.</div><div class="pillar-bar"></div></div>
+      <div class="pillar"><div class="pillar-n">04</div><div class="pillar-icon">🔒</div><div class="pillar-name">Mental</div><div class="pillar-desc">Unbreakable confidence no matter the scenario. The most overlooked pillar in the game.</div><div class="pillar-bar"></div></div>
+      <div class="pillar"><div class="pillar-n">05</div><div class="pillar-icon">🎯</div><div class="pillar-name">Opportunity</div><div class="pillar-desc">How to get in front of the right coaches. The recruitment game nobody teaches — and how to win it.</div><div class="pillar-bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results">
+  <div class="results-inner">
+    <div class="reveal" style="margin-bottom:52px">
+      <p class="eyebrow">Proof</p>
+      <h2 class="sec-title">The Results<br><em>Speak</em></h2>
+    </div>
+    <div class="results-grid">
+      <div class="r-card reveal"><div class="r-idx">01</div><div><div class="r-name">Nico Perez</div><span class="r-tag">MLS Academy → Cornell University</span><p class="r-body">Started at a grassroots team. Applied the 5 Pillar Method. Signed to an <strong>MLS Academy</strong> and committed to <strong>Cornell University.</strong></p></div></div>
+      <div class="r-card reveal"><div class="r-idx">02</div><div><div class="r-name">Cameron Kobe</div><span class="r-tag">D1 Scholarship → Starter Freshman Year</span><p class="r-body">Grassroots player who didn't know if he was good enough. <strong>Full D1 scholarship to St. Mary's College.</strong> Started his freshman year.</p></div></div>
+      <div class="r-card reveal"><div class="r-idx">03</div><div><div class="r-name">Mason · Age 10</div><span class="r-tag">Tournament MVP · 1 Week</span><p class="r-body">Struggling with confidence. In <strong>one week</strong> became the most confident player on his team and won <strong>Tournament MVP.</strong></p></div></div>
+      <div class="r-card reveal"><div class="r-idx">04</div><div><div class="r-name">Ronan · Age 11</div><span class="r-tag">Tournament MVP · 1 Month</span><p class="r-body">Struggled reading tactical situations. Within <strong>one month</strong> won his tournament and was crowned <strong>Team MVP.</strong></p></div></div>
+    </div>
+    <div class="stat-strip reveal">
+      <div class="st-block"><div class="st-num">7+</div><div class="st-lbl">D1 College Commits<br>in 2024 alone</div></div>
+      <div class="st-block"><div class="st-num">2</div><div class="st-lbl">Professional Contracts<br>signed by Riley</div></div>
+      <div class="st-block"><div class="st-num">10min</div><div class="st-lbl">Daily action needed<br>to start the method</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-head reveal">
+      <p class="eyebrow">Choose Your Seat</p>
+      <h2 class="sec-title">Get Your <em>Ticket</em></h2>
+    </div>
+    <p class="pricing-sub reveal">One live webinar. The full 5 Pillar Method. Choose how deep you want to go.</p>
+    <div class="pricing-grid">
+      <div class="p-card reveal">
+        <div class="p-tier">Starter</div>
+        <div class="p-name">General Access</div>
+        <div class="p-sub">Watch the live webinar. Get the full method.</div>
+        <div class="p-price"><span class="curr">$</span>27</div>
+        <div class="p-note">one-time · live event access</div>
+        <ul class="feat-list">
+          <li><span class="ck">✓</span> Live webinar access</li>
+          <li><span class="ck">✓</span> Full 5 Pillar breakdown</li>
+          <li><span class="ck">✓</span> Live Q&A with Riley</li>
+          <li><span class="ck">✓</span> 48-hour replay access</li>
+        </ul>
+        <button class="p-btn outline" onclick="alert('Add checkout link')">Get My Ticket — $27</button>
+      </div>
+      <div class="p-card featured reveal">
+        <div class="pop-badge">Most Popular</div>
+        <div class="p-tier">Best Value</div>
+        <div class="p-name">VIP Access</div>
+        <div class="p-sub">Webinar + 30 days inside the full program.</div>
+        <div class="p-price"><span class="curr">$</span>97</div>
+        <div class="p-note">one-time · includes 30-day program trial</div>
+        <ul class="feat-list">
+          <li><span class="ck">✓</span> <strong>Everything in General Access</strong></li>
+          <li><span class="ck">✓</span> Permanent replay access</li>
+          <li><span class="ck">✓</span> 30-day daily training plan</li>
+          <li><span class="ck">✓</span> 3× weekly group coaching calls</li>
+          <li><span class="ck">✓</span> Video library access</li>
+          <li><span class="ck">✓</span> $97 credited toward annual membership</li>
+        </ul>
+        <button class="p-btn solid" onclick="alert('Add checkout link')">Get VIP Access — $97</button>
+      </div>
+      <div class="p-card reveal">
+        <div class="p-tier">All In</div>
+        <div class="p-name">Elite</div>
+        <div class="p-sub">Full year membership included from day one.</div>
+        <div class="p-price"><span class="curr">$</span>197</div>
+        <div class="p-note">then $1,800/yr · cancel anytime</div>
+        <ul class="feat-list">
+          <li><span class="ck">✓</span> <strong>Everything in VIP</strong></li>
+          <li><span class="ck">✓</span> Full 365-day daily programming</li>
+          <li><span class="ck">✓</span> Complete video library — all positions</li>
+          <li><span class="ck">✓</span> Speed, strength & injury prevention</li>
+          <li><span class="ck">✓</span> Full mindset + tactical courses</li>
+          <li><span class="ck">✓</span> 3× weekly group coaching calls</li>
+        </ul>
+        <button class="p-btn outline" onclick="alert('Add checkout link')">Go Elite — $197</button>
+      </div>
+    </div>
+    <div class="guarantee reveal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DD004A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      100% satisfaction guarantee — full refund within 24 hours if you don't find value.
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section class="obj">
+  <div class="obj-inner">
+    <div class="obj-head reveal">
+      <p class="eyebrow">Heard It Before</p>
+      <h2 class="sec-title">The Excuses<br><em>Stop Here</em></h2>
+    </div>
+    <div class="obj-item reveal"><div class="obj-q" onclick="toggleObj(this)">"I don't have equipment or a training space."<span class="obj-icon">+</span></div><div class="obj-a">The system was built for players without fancy facilities. Ten minutes and the right drills — no equipment required. Riley built this out of necessity.</div></div>
+    <div class="obj-item reveal"><div class="obj-q" onclick="toggleObj(this)">"I don't have time."<span class="obj-icon">+</span></div><div class="obj-a">Ten minutes a day. That's the starting point. The whole method is built around daily consistent action — not unsustainable four-hour sessions.</div></div>
+    <div class="obj-item reveal"><div class="obj-q" onclick="toggleObj(this)">"I've tried coaching before. It didn't work."<span class="obj-icon">+</span></div><div class="obj-a">Because most programs only cover one or two areas. The 5 Pillar Method covers all five — and gives you an exact daily plan so you never guess what to do next.</div></div>
+    <div class="obj-item reveal"><div class="obj-q" onclick="toggleObj(this)">"I'm not talented enough."<span class="obj-icon">+</span></div><div class="obj-a">Riley was cut from his high school team. Too small. Not fast enough. Zero offers. Talent is not the variable. Daily system is. That's the entire premise of this webinar.</div></div>
+    <div class="obj-item reveal"><div class="obj-q" onclick="toggleObj(this)">"What age is this for?"<span class="obj-icon">+</span></div><div class="obj-a">Players from 10 years old through college level chasing pro contracts. Mason was 10. Cameron was a college senior. The system scales to where you are right now.</div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="final-glow"></div>
+  <div class="final-inner">
+    <h2 class="final-title reveal">Your Move.<br><em>Make It.</em></h2>
+    <p class="final-sub reveal">Riley was cut. He had zero offers. He sat on his bed and cried.<br>Then he made a decision. Now it's yours.</p>
+    <a href="#pricing" class="btn-main reveal" style="display:inline-flex">
+      Claim Your Seat
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Riley Lynch · The 5 Pillar Method</span>
+  <span>Built by Casa Growth Co.</span>
+</footer>
+
+<script>
+const TARGET = new Date(Date.now() + 7*24*60*60*1000 + 14*60*60*1000);
+function tick() {
+  const d = TARGET - Date.now();
+  if(d<=0) return;
+  document.getElementById('cd-d').textContent = String(Math.floor(d/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(Math.floor(d%60000/1000)).padStart(2,'0');
+}
+tick(); setInterval(tick,1000);
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*70); io.unobserve(e.target); }
+  });
+},{ threshold:0.08 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function toggleObj(el) {
+  const item = el.parentElement;
+  const icon = el.querySelector('.obj-icon');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.obj-item').forEach(o=>{ o.classList.remove('open'); o.querySelector('.obj-icon').textContent='+'; });
+  if(!isOpen){ item.classList.add('open'); icon.textContent='+'; }
+}
+</script>
+</body>
+</html>
